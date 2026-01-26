@@ -2,58 +2,50 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>DTDエディタ</title>
+<title>CSS判定サンプル</title>
 <style>
-html, body {
-  margin: 0;
-  padding: 0;
-  background: white;
-  color: black;
-}
-
-textarea {
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-  border: none;
-  outline: none;
-  background: white;
-  color: black;
-  font-family: monospace;
-  font-size: 14px;
-  line-height: 1.2;
-  white-space: pre;
-  resize: none;
+#contentFrame {
+  width: 100%;
+  height: 80vh;
+  border: 1px solid #aaa;
 }
 </style>
 </head>
 <body>
 
-<textarea>
-<!--
-This is the HTML 4.01 Transitional DTD, which includes
-presentation attributes and elements that W3C expects to phase out
-as support for style sheets matures. Authors should use the Strict
-DTD when possible, but may use the Transitional DTD when support
-for presentation attribute and elements is required.
+<h2>DTD CSS判定</h2>
+<p>ページのURL（コピーしたHTMLのローカルファイルや自分のHTML）を入力してください:</p>
+<input type="text" id="urlInput" placeholder="例: myDTD.html" size="50">
+<button id="loadBtn">読み込んで判定</button>
 
-HTML 4 includes mechanisms for style sheets, scripting,
-embedding objects, improved support for right to left and mixed
-direction text, and enhancements to forms for improved
-accessibility for people with disabilities.
+<iframe id="contentFrame"></iframe>
 
-Draft: $Date: 1999/12/24 23:37:50 $
+<script>
+const btn = document.getElementById("loadBtn");
+const input = document.getElementById("urlInput");
+const frame = document.getElementById("contentFrame");
 
-Authors:
-    Dave Raggett <dsr@w3.org>
-    Arnaud Le Hors <lehors@w3.org>
-    Ian Jacobs <ij@w3.org>
+btn.addEventListener("click", () => {
+  const url = input.value;
+  frame.src = url;
 
-Further information about HTML 4.01 is available at:
-    http://www.w3.org/TR/1999/REC-html401-19991224
--->
-</textarea>
+  frame.onload = () => {
+    const frameDoc = frame.contentDocument || frame.contentWindow.document;
+    const body = frameDoc.body;
+
+    const style = frame.contentWindow.getComputedStyle(body);
+
+    console.log("===== 判定結果 =====");
+    console.log("文字色:", style.color);
+    console.log("背景色:", style.backgroundColor);
+    console.log("フォント:", style.fontFamily);
+    console.log("フォントサイズ:", style.fontSize);
+    console.log("行間:", style.lineHeight);
+    console.log("===================");
+    alert("判定結果はコンソールに表示されました");
+  };
+});
+</script>
 
 </body>
 </html>
