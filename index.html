@@ -3,41 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JSファイル風表示</title>
+<title>JSファイル風完全再現</title>
 <style>
-  /* 全体設定 */
   body {
-    background-color: #000; /* 黒背景 */
-    color: #fff;           /* 文字色は白 */
-    font-family: Menlo, Consolas, Monaco, monospace; /* JS表示風フォント */
-    font-size: 14px;
-    line-height: 1.4;
-    margin: 20px;
-  }
-
-  /* コードブロック */
-  pre {
-    white-space: pre;      /* インデント・改行をそのまま表示 */
+    background-color: #000;
+    color: #fff;
+    font-family: Menlo, Consolas, Monaco, monospace;
+    font-size: 13px;
     margin: 0;
+    padding: 10px;
   }
 
-  /* JSっぽくキーワード・文字列・コメントの色分け */
-  .keyword { color: #569CD6; }   /* function, const など */
-  .string { color: #D69D85; }    /* 文字列 */
-  .comment { color: #6A9955; }   /* コメント */
+  pre {
+    white-space: pre; /* 改行・スペースをそのまま */
+    overflow: auto;   /* 大きなコードでもスクロール */
+    margin: 0;
+    padding: 10px;
+  }
 </style>
 </head>
 <body>
 
-<h1>ブラウザJS表示風</h1>
-
 <pre>
-<span class="comment">// これはコメントです</span>
-<span class="keyword">function</span> TestFunction() {
-    <span class="keyword">console</span>.log(<span class="string">"こんにちは！"</span>);
-    <span class="keyword">return</span> 42;
+function example() {
+    console.log("これはソースビューっぽく表示されます");
+    return 42;
 }
-TestFunction();
+
+// JSファイルを直接ブラウザで見たときの雰囲気
 </pre>
 
 </body>
