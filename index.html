@@ -2,37 +2,56 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>CSS判定サンプル</title>
+<title>CSS判定ツール</title>
 <style>
-#contentFrame {
+body {
+  font-family: sans-serif;
+  padding: 10px;
+}
+textarea {
   width: 100%;
-  height: 80vh;
+  height: 40px;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+button {
+  padding: 5px 10px;
+}
+iframe {
+  width: 100%;
+  height: 50vh;
   border: 1px solid #aaa;
+  margin-top: 10px;
 }
 </style>
 </head>
 <body>
 
-<h2>DTD CSS判定</h2>
-<p>ページのURL（コピーしたHTMLのローカルファイルや自分のHTML）を入力してください:</p>
-<input type="text" id="urlInput" placeholder="例: myDTD.html" size="50">
-<button id="loadBtn">読み込んで判定</button>
+<h2>DTD CSS判定ツール</h2>
+<p>コピーしたHTMLのファイル名（または相対パス）を入力してください:</p>
+<textarea id="urlInput" placeholder="例: myDTD.html"></textarea>
+<br>
+<button id="checkBtn">読み込んで判定</button>
 
-<iframe id="contentFrame"></iframe>
+<iframe id="frame"></iframe>
 
 <script>
-const btn = document.getElementById("loadBtn");
+const btn = document.getElementById("checkBtn");
 const input = document.getElementById("urlInput");
-const frame = document.getElementById("contentFrame");
+const frame = document.getElementById("frame");
 
 btn.addEventListener("click", () => {
-  const url = input.value;
+  const url = input.value.trim();
+  if (!url) {
+    alert("ファイル名を入力してください");
+    return;
+  }
+
   frame.src = url;
 
   frame.onload = () => {
-    const frameDoc = frame.contentDocument || frame.contentWindow.document;
-    const body = frameDoc.body;
-
+    const doc = frame.contentDocument || frame.contentWindow.document;
+    const body = doc.body;
     const style = frame.contentWindow.getComputedStyle(body);
 
     console.log("===== 判定結果 =====");
@@ -41,7 +60,18 @@ btn.addEventListener("click", () => {
     console.log("フォント:", style.fontFamily);
     console.log("フォントサイズ:", style.fontSize);
     console.log("行間:", style.lineHeight);
-    console.log("===================");
+
+    // 行ごとに判定して配列にする例
+    const lines = body.innerText.split("\n").map((line, i) => ({
+      lineNumber: i + 1,
+      text: line,
+      color: style.color,
+      background: style.backgroundColor,
+      font: style.fontFamily,
+      fontSize: style.fontSize
+    }));
+    console.log("行ごとのスタイル:", lines);
+
     alert("判定結果はコンソールに表示されました");
   };
 });
