@@ -5,38 +5,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JSファイル風表示</title>
 <style>
-  /* 全体の設定 */
+  /* 全体設定 */
   body {
     background-color: #000; /* 黒背景 */
     color: #fff;           /* 文字色は白 */
-    font-family: Menlo, Consolas, "Courier New", monospace; /* JS表示風フォント */
+    font-family: Menlo, Consolas, Monaco, monospace; /* JS表示風フォント */
     font-size: 14px;
-    line-height: 1.5;
+    line-height: 1.4;
     margin: 20px;
   }
 
-  /* 複数行コード表示用 */
+  /* コードブロック */
   pre {
-    white-space: pre;      /* スペース・改行をそのまま表示 */
+    white-space: pre;      /* インデント・改行をそのまま表示 */
     margin: 0;
   }
 
-  /* コード部分の強調（オプション） */
-  .keyword { color: #569CD6; }   /* JSキーワード風 */
-  .string { color: #D69D85; }    /* 文字列風 */
-  .comment { color: #6A9955; }   /* コメント風 */
+  /* JSっぽくキーワード・文字列・コメントの色分け */
+  .keyword { color: #569CD6; }   /* function, const など */
+  .string { color: #D69D85; }    /* 文字列 */
+  .comment { color: #6A9955; }   /* コメント */
 </style>
 </head>
 <body>
 
-<h1>JSファイル風表示</h1>
+<h1>ブラウザJS表示風</h1>
 
 <pre>
 <span class="comment">// これはコメントです</span>
-<span class="keyword">function</span> hello() {
+<span class="keyword">function</span> testFunction() {
     <span class="keyword">console</span>.log(<span class="string">"こんにちは！"</span>);
+    <span class="keyword">return</span> 42;
 }
-hello();
+testFunction();
 </pre>
 
 </body>
