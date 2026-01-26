@@ -5,20 +5,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JSファイル風完全再現</title>
 <style>
+  /* ページ全体 */
   body {
-    background-color: #000;
-    color: #fff;
-    font-family: Menlo, Consolas, Monaco, monospace;
-    font-size: 13px;
     margin: 0;
-    padding: 10px;
+    padding: 0;
+    background-color: #000;  /* 黒背景 */
+    color: #fff;             /* 白文字 */
+    font-family: Menlo, Consolas, Monaco, monospace;
+    font-size: 13px;         /* ブラウザのJS表示に近い */
+    line-height: 1.2;        /* 行間調整 */
   }
 
+  /* コードブロック */
   pre {
-    white-space: pre; /* 改行・スペースをそのまま */
-    overflow: auto;   /* 大きなコードでもスクロール */
     margin: 0;
-    padding: 10px;
+    padding: 10px;           /* JS表示の余白っぽく */
+    white-space: pre;        /* インデント・改行そのまま */
+    overflow: auto;          /* 横スクロール対応 */
+  }
+
+  /* 選択時の色もブラウザ風に */
+  ::selection {
+    background: #b3d4fc;
+    color: #000;
   }
 </style>
 </head>
@@ -26,11 +35,12 @@
 
 <pre>
 function example() {
-    console.log("これはソースビューっぽく表示されます");
+    console.log("これはブラウザソースビュー風の表示です");
     return 42;
 }
 
-// JSファイルを直接ブラウザで見たときの雰囲気
+// 長い行も横スクロールで確認
+for (let i = 0; i &lt; 100; i++) { console.log(i); }
 </pre>
 
 </body>
