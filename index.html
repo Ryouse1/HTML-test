@@ -2,28 +2,29 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>DTD editor</title>
+<title>DTDエディタ</title>
 <style>
-body {
-  margin: 16px;
+html, body {
+  margin: 0;
+  padding: 0;
   background: white;
   color: black;
 }
 
 textarea {
-  width: 100%;
-  height: 80vh;
-
-  font-family: Menlo, Consolas, "Courier New", monospace;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: white;
+  color: black;
+  font-family: monospace;
   font-size: 14px;
-  line-height: 1.4;
-
+  line-height: 1.2;
   white-space: pre;
-  resize: vertical;
-
-  border: 1px solid #aaa;
-  padding: 8px;
-  box-sizing: border-box;
+  resize: none;
 }
 </style>
 </head>
@@ -33,7 +34,24 @@ textarea {
 <!--
 This is the HTML 4.01 Transitional DTD, which includes
 presentation attributes and elements that W3C expects to phase out
-as support for style sheets matures.
+as support for style sheets matures. Authors should use the Strict
+DTD when possible, but may use the Transitional DTD when support
+for presentation attribute and elements is required.
+
+HTML 4 includes mechanisms for style sheets, scripting,
+embedding objects, improved support for right to left and mixed
+direction text, and enhancements to forms for improved
+accessibility for people with disabilities.
+
+Draft: $Date: 1999/12/24 23:37:50 $
+
+Authors:
+    Dave Raggett <dsr@w3.org>
+    Arnaud Le Hors <lehors@w3.org>
+    Ian Jacobs <ij@w3.org>
+
+Further information about HTML 4.01 is available at:
+    http://www.w3.org/TR/1999/REC-html401-19991224
 -->
 </textarea>
 
