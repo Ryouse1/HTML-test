@@ -2,38 +2,31 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>Scratch風 JSON エディタ（Web版）</title>
+<title>JSON ハイライト（元フォント維持）</title>
 <style>
 body {
     margin: 0;
     padding: 16px;
-    background-color: #000000;
-    color: #FFFFFF;
-    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: Menlo, Monaco, Consolas, monospace;
+    font-size: 14px;
+    background-color: #f8f8f8; /* 白背景そのまま */
+    color: #000000;
 }
 
 h2 {
-    color: white;
     margin-bottom: 12px;
-}
-
-/* レイアウト */
-.container {
-    display: flex;
-    gap: 16px;
 }
 
 /* JSON入力欄 */
 textarea {
     flex: 1;
     height: 300px;
-    background-color: #000000;  /* 黒背景 */
-    color: #FFFFFF;             /* 白文字 */
-    border: 1px solid #444;
-    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: #ffffff;  /* 入力欄も白 */
+    color: #000000;
+    border: 1px solid #ccc;
+    font-family: Menlo, Monaco, Consolas, monospace;
     font-size: 14px;
-    line-height: 1.4;          /* TextArea とプレビューを近づける */
-    letter-spacing: normal;     /* 文字間隔を揃える */
+    line-height: 1.4;
     padding: 12px;
     resize: none;
     overflow: auto;
@@ -42,16 +35,15 @@ textarea {
 /* プレビュー */
 pre {
     flex: 1;
-    background-color: #000000;
-    color: #FFFFFF;
+    background-color: #f8f8f8;
+    color: #000000;
     padding: 12px;
-    border: 1px solid #444;
+    border: 1px solid #ccc;
     white-space: pre-wrap;
     word-break: break-word;
-    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: Menlo, Monaco, Consolas, monospace;
     font-size: 14px;
     line-height: 1.4;
-    letter-spacing: normal;
     overflow: auto;
 }
 
@@ -65,9 +57,9 @@ pre {
 </head>
 <body>
 
-<h2>Scratch風 JSON エディタ（Web版）</h2>
+<h2>JSON ハイライト（元フォント維持）</h2>
 
-<div class="container">
+<div style="display:flex; gap:16px;">
     <textarea id="jsonInput">{
   "website": "scratch.mit.edu",
   "api": "api.scratch.mit.edu",
@@ -84,7 +76,7 @@ pre {
 // JSON → HTML に変換してカラー付け
 function highlightJSON(json) {
     let str = json
-        .replace(/&(?!amp;)/g, '&amp;')   // & をエスケープ
+        .replace(/&(?!amp;)/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
     str = str
@@ -97,15 +89,4 @@ function highlightJSON(json) {
 }
 
 // 初期表示
-const textarea = document.getElementById("jsonInput");
-const pre = document.getElementById("jsonView");
-pre.innerHTML = highlightJSON(textarea.value);
-
-// リアルタイム更新
-textarea.addEventListener("input", () => {
-    pre.innerHTML = highlightJSON(textarea.value);
-});
-</script>
-
-</body>
-</html>
+const te
