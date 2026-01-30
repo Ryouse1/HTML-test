@@ -2,33 +2,42 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>JSON ハイライト（元フォント維持）</title>
+<title>Scratch風 JSON エディタ（Web版）</title>
 <style>
 body {
     margin: 0;
-    padding: 16px;
+    padding: 0;
     font-family: Menlo, Monaco, Consolas, monospace;
     font-size: 14px;
-    background-color: #f8f8f8; /* 白背景そのまま */
+    background-color: #f8f8f8;
     color: #000000;
 }
 
 h2 {
-    margin-bottom: 12px;
+    margin: 0;
+    padding: 12px;
+    background-color: rgba(128,128,128,0.2);
+    font-size: 1.2em;
+}
+
+.container {
+    display: flex;
+    gap: 16px;
+    padding: 12px;
 }
 
 /* JSON入力欄 */
 textarea {
     flex: 1;
-    height: 300px;
-    background-color: #ffffff;  /* 入力欄も白 */
+    height: 180px;
+    background-color: #ffffff;
     color: #000000;
-    border: 1px solid #ccc;
+    border: 1px solid rgba(128,128,128,0.5);
     font-family: Menlo, Monaco, Consolas, monospace;
     font-size: 14px;
     line-height: 1.4;
     padding: 12px;
-    resize: none;
+    resize: vertical;
     overflow: auto;
 }
 
@@ -38,7 +47,7 @@ pre {
     background-color: #f8f8f8;
     color: #000000;
     padding: 12px;
-    border: 1px solid #ccc;
+    border: 1px solid rgba(128,128,128,0.5);
     white-space: pre-wrap;
     word-break: break-word;
     font-family: Menlo, Monaco, Consolas, monospace;
@@ -48,18 +57,18 @@ pre {
 }
 
 /* JSONカラー */
-.key { color: #4FC3F7; }       /* 青系 */
-.string { color: #C3E88D; }    /* 緑系 */
-.number { color: #FFCB6B; }    /* 黄系 */
-.boolean { color: #F78C6C; }   /* オレンジ系 */
-.null { color: #9E9E9E; }      /* グレー系 */
+.key { color: #0070C0; }       /* キー → 青 */
+.string { color: #C65D00; }    /* 文字列 → オレンジ */
+.number { color: #228B22; }    /* 数値 → 緑 */
+.boolean { color: #800080; }   /* true/false → 紫 */
+.null { color: #800080; }      /* null → 紫 */
 </style>
 </head>
 <body>
 
-<h2>JSON ハイライト（元フォント維持）</h2>
+<h2>Scratch風JSONエディタ</h2>
 
-<div style="display:flex; gap:16px;">
+<div class="container">
     <textarea id="jsonInput">{
   "website": "scratch.mit.edu",
   "api": "api.scratch.mit.edu",
@@ -73,20 +82,38 @@ pre {
 </div>
 
 <script>
-// JSON → HTML に変換してカラー付け
+// SwiftUIのhighlightJSON関数をWeb用に変換
 function highlightJSON(json) {
     let str = json
-        .replace(/&(?!amp;)/g, '&amp;')
+        .replace(/&(?!amp;)/g, '&amp;')  // & エスケープ
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
-    str = str
-        .replace(/"(.*?)":/g, '<span class="key">"$1"</span>:')         // キー
-        .replace(/: "(.*?)"/g, ': <span class="string">"$1"</span>')   // 文字列
-        .replace(/: (\d+\.?\d*)/g, ': <span class="number">$1</span>') // 数値
-        .replace(/: (true|false)/g, ': <span class="boolean">$1</span>') // 真偽値
-        .replace(/: (null)/g, ': <span class="null">$1</span>');       // null
+    
+    // キー → 青
+    str = str.replace(/"(.*?)":/g, '<span class="key">"$1"</span>:');
+
+    // 文字列 → オレンジ
+    str = str.replace(/: "(.*?)"/g, ': <span class="string">"$1"</span>');
+
+    // 数字 → 緑
+    str = str.replace(/: (\d+\.?\d*)/g, ': <span class="number">$1</span>');
+
+    // true / false / null → 紫
+    str = str.replace(/: (true|false|null)/g, ': <span class="boolean">$1</span>');
+
     return str;
 }
 
 // 初期表示
-const te
+const textarea = document.getElementById("jsonInput");
+const pre = document.getElementById("jsonView");
+pre.innerHTML = highlightJSON(textarea.value);
+
+// リアルタイム更新
+textarea.addEventListener("input", () => {
+    pre.innerHTML = highlightJSON(textarea.value);
+});
+</script>
+
+</body>
+</html>
