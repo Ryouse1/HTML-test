@@ -2,19 +2,19 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>Scratch風 JSONエディタ</title>
+<title>SwiftUI風 JSONエディタ</title>
 <style>
 body {
-    margin: 0;
-    padding: 0;
     font-family: Menlo, Monaco, Consolas, monospace;
     font-size: 14px;
     background-color: #f8f8f8;
+    padding: 12px;
+    margin: 0;
     color: #000;
 }
 
 h2 {
-    margin: 0;
+    margin: 0 0 12px 0;
     padding: 12px;
     background-color: rgba(128,128,128,0.2);
     font-size: 1.2em;
@@ -23,35 +23,33 @@ h2 {
 .editor-container {
     display: flex;
     gap: 16px;
-    padding: 12px;
 }
 
 /* 入力欄 */
 textarea {
     flex: 1;
     height: 180px;
-    background-color: #fff;
-    color: #000;
-    border: 1px solid rgba(128,128,128,0.5);
-    font-family: Menlo, Monaco, Consolas, monospace;
-    font-size: 14px;
-    line-height: 1.4;
     padding: 12px;
+    border: 1px solid rgba(128,128,128,0.5);
+    background-color: #fff;
+    font-family: inherit; /* body の Menlo 等を継承 */
+    font-size: inherit;
+    line-height: 1.4;
     resize: vertical;
     overflow: auto;
+    color: #000;
 }
 
 /* プレビュー */
 pre {
     flex: 1;
     background-color: #f8f8f8;
-    color: #000;
-    padding: 12px;
     border: 1px solid rgba(128,128,128,0.5);
+    padding: 12px;
     white-space: pre-wrap; /* 折り返しあり */
     word-break: break-word;
-    font-family: Menlo, Monaco, Consolas, monospace;
-    font-size: 14px;
+    font-family: inherit; /* body の Menlo 等を継承 */
+    font-size: inherit;
     line-height: 1.4;
     overflow: auto;
 }
@@ -66,7 +64,7 @@ pre {
 </head>
 <body>
 
-<h2>Scratch風 JSONエディタ</h2>
+<h2>SwiftUI風 JSONエディタ</h2>
 
 <div class="editor-container">
     <textarea id="jsonInput">{
@@ -77,7 +75,6 @@ pre {
   "active": true,
   "nullValue": null
 }</textarea>
-
     <pre id="jsonView"></pre>
 </div>
 
