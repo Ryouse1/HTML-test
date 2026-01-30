@@ -2,27 +2,57 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>Scratch風 JSON 表示</title>
+<title>Scratch風 JSON エディタ（Web版）</title>
 <style>
 body {
-    background-color: #000000; /* 黒背景 */
-    color: #FFFFFF;            /* 白文字 */
-    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin: 0;
     padding: 16px;
+    background-color: #000000;
+    color: #FFFFFF;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+h2 {
+    color: white;
+    margin-bottom: 12px;
+}
+
+/* レイアウト */
+.container {
+    display: flex;
+    gap: 16px;
+}
+
+/* JSON入力欄 */
+textarea {
+    flex: 1;
+    height: 300px;
+    background-color: #000000;  /* 黒背景 */
+    color: #FFFFFF;             /* 白文字 */
+    border: 1px solid #444;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 12px;
+    resize: none;
+}
+
+/* プレビュー */
 pre {
+    flex: 1;
+    background-color: #000000;
+    color: #FFFFFF;
+    padding: 12px;
+    border: 1px solid #444;
     white-space: pre-wrap;
     word-break: break-word;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 1.5;
     overflow: auto;
-    padding: 12px;
-    border: 1px solid #444;
-    background-color: #000000;
 }
 
-/* JSON カラー */
+/* JSONカラー */
 .key { color: #4FC3F7; }       /* 青系 */
 .string { color: #C3E88D; }    /* 緑系 */
 .number { color: #FFCB6B; }    /* 黄系 */
@@ -32,23 +62,25 @@ pre {
 </head>
 <body>
 
-<h2 style="color:white;">Scratch風 JSON 表示</h2>
+<h2>Scratch風 JSON エディタ（Web版）</h2>
 
-<pre id="jsonView"></pre>
-
-<script>
-const jsonData = {
+<div class="container">
+    <textarea id="jsonInput">{
   "website": "scratch.mit.edu",
   "api": "api.scratch.mit.edu",
   "help": "help@scratch.mit.edu",
   "version": 3,
   "active": true,
   "nullValue": null
-};
+}</textarea>
 
+    <pre id="jsonView"></pre>
+</div>
+
+<script>
 // JSON → HTML に変換してカラー付け
-function jsonToHtml(obj) {
-    let str = JSON.stringify(obj, null, 2);
+function highlightJSON(json) {
+    let str = json;
     str = str
         .replace(/"(.*?)":/g, '<span class="key">"$1"</span>:')         // キー
         .replace(/: "(.*?)"/g, ': <span class="string">"$1"</span>')   // 文字列
@@ -58,7 +90,15 @@ function jsonToHtml(obj) {
     return str;
 }
 
-document.getElementById("jsonView").innerHTML = jsonToHtml(jsonData);
+// 初期表示
+const textarea = document.getElementById("jsonInput");
+const pre = document.getElementById("jsonView");
+pre.innerHTML = highlightJSON(textarea.value);
+
+// リアルタイム更新
+textarea.addEventListener("input", () => {
+    pre.innerHTML = highlightJSON(textarea.value);
+});
 </script>
 
 </body>
