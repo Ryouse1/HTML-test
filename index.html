@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>Scratch風 JSON エディタ（Web版）</title>
+<title>Scratch風 JSONエディタ（行番号付き）</title>
 <style>
 body {
     margin: 0;
@@ -10,7 +10,7 @@ body {
     font-family: Menlo, Monaco, Consolas, monospace;
     font-size: 14px;
     background-color: #f8f8f8;
-    color: #000000;
+    color: #000;
 }
 
 h2 {
@@ -20,32 +20,55 @@ h2 {
     font-size: 1.2em;
 }
 
-.container {
+.editor-container {
     display: flex;
     gap: 16px;
     padding: 12px;
 }
 
-/* JSON入力欄 */
-textarea {
+.editor-box {
+    position: relative;
     flex: 1;
-    height: 180px;
-    background-color: #ffffff;
-    color: #000000;
+    height: 300px;
     border: 1px solid rgba(128,128,128,0.5);
+    overflow: hidden;
+    background-color: #fff;
+}
+
+textarea {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: none;
+    padding: 12px 0 12px 40px; /* 左にスペース作って行番号表示 */
+    margin: 0;
     font-family: Menlo, Monaco, Consolas, monospace;
     font-size: 14px;
     line-height: 1.4;
-    padding: 12px;
     resize: vertical;
+    background-color: transparent;
+    color: #000;
     overflow: auto;
 }
 
-/* プレビュー */
+.line-numbers {
+    position: absolute;
+    top: 0; left: 0;
+    width: 40px;
+    padding: 12px 0 12px 4px;
+    text-align: right;
+    color: #888;
+    font-family: Menlo, Monaco, Consolas, monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    pointer-events: none;
+    user-select: none;
+}
+
 pre {
     flex: 1;
     background-color: #f8f8f8;
-    color: #000000;
+    color: #000;
     padding: 12px;
     border: 1px solid rgba(128,128,128,0.5);
     white-space: pre-wrap;
@@ -57,19 +80,21 @@ pre {
 }
 
 /* JSONカラー */
-.key { color: #0070C0; }       /* キー → 青 */
-.string { color: #C65D00; }    /* 文字列 → オレンジ */
-.number { color: #228B22; }    /* 数値 → 緑 */
-.boolean { color: #800080; }   /* true/false → 紫 */
-.null { color: #800080; }      /* null → 紫 */
+.key { color: #0070C0; }
+.string { color: #C65D00; }
+.number { color: #228B22; }
+.boolean { color: #800080; }
+.null { color: #800080; }
 </style>
 </head>
 <body>
 
-<h2>Scratch風JSONエディタ</h2>
+<h2>Scratch風 JSONエディタ（行番号付き）</h2>
 
-<div class="container">
-    <textarea id="jsonInput">{
+<div class="editor-container">
+    <div class="editor-box">
+        <div class="line-numbers" id="lineNumbers">1</div>
+        <textarea id="jsonInput">{
   "website": "scratch.mit.edu",
   "api": "api.scratch.mit.edu",
   "help": "help@scratch.mit.edu",
@@ -77,41 +102,43 @@ pre {
   "active": true,
   "nullValue": null
 }</textarea>
-
+    </div>
     <pre id="jsonView"></pre>
 </div>
 
 <script>
-// SwiftUIのhighlightJSON関数をWeb用に変換
+// JSON → HTML に変換してカラー付け
 function highlightJSON(json) {
     let str = json
-        .replace(/&(?!amp;)/g, '&amp;')  // & エスケープ
+        .replace(/&(?!amp;)/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
-    
-    // キー → 青
-    str = str.replace(/"(.*?)":/g, '<span class="key">"$1"</span>:');
-
-    // 文字列 → オレンジ
-    str = str.replace(/: "(.*?)"/g, ': <span class="string">"$1"</span>');
-
-    // 数字 → 緑
-    str = str.replace(/: (\d+\.?\d*)/g, ': <span class="number">$1</span>');
-
-    // true / false / null → 紫
-    str = str.replace(/: (true|false|null)/g, ': <span class="boolean">$1</span>');
-
+    str = str
+        .replace(/"(.*?)":/g, '<span class="key">"$1"</span>:')
+        .replace(/: "(.*?)"/g, ': <span class="string">"$1"</span>')
+        .replace(/: (\d+\.?\d*)/g, ': <span class="number">$1</span>')
+        .replace(/: (true|false|null)/g, ': <span class="boolean">$1</span>');
     return str;
 }
 
-// 初期表示
+// リアルタイム更新
 const textarea = document.getElementById("jsonInput");
 const pre = document.getElementById("jsonView");
-pre.innerHTML = highlightJSON(textarea.value);
+const lineNumbers = document.getElementById("lineNumbers");
 
-// リアルタイム更新
-textarea.addEventListener("input", () => {
+function updatePreview() {
     pre.innerHTML = highlightJSON(textarea.value);
+    const lines = textarea.value.split("\n").length;
+    lineNumbers.innerHTML = Array.from({length: lines}, (_, i) => i + 1).join("\n");
+}
+
+// 初期表示
+updatePreview();
+
+// イベント
+textarea.addEventListener("input", updatePreview);
+textarea.addEventListener("scroll", () => {
+    lineNumbers.scrollTop = textarea.scrollTop;
 });
 </script>
 
