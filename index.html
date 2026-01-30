@@ -1,81 +1,33 @@
-<!DOCTYPE html>
-<html lang="ja">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Scratch風ソースビュー（カラー付き）</title>
-<style>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<title>Scratch風表示（Cocoa HTML Writer）</title>
+<meta name="Generator" content="Cocoa HTML Writer">
+<style type="text/css">
 body {
-    margin: 0;
-    padding: 16px;
-    background-color: #000000;
+    background-color: #000000; /* 黒背景 */
+    color: #FFFFFF;            /* 白文字 */
     font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #FFFFFF;
+    padding: 16px;
 }
 
-pre {
-    background-color: #000000;
-    color: #FFFFFF;
-    padding: 12px;
-    border: 1px solid #555;
-    white-space: pre-wrap;
-    word-break: break-word;
-    overflow: auto;
-    max-height: 400px;
-    font-size: 14px;
-    line-height: 1.5;
+p.p1 {
+    margin: 0;                 /* Cocoa HTML Writer 仕様のマージンなし */
 }
 
-.key {
-    color: #4FC3F7; /* 青系 */
-}
-
-.string {
-    color: #C3E88D; /* 緑系 */
-}
-
-.number {
-    color: #FFCB6B; /* 黄系 */
-}
-
-.boolean {
-    color: #F78C6C; /* オレンジ系 */
-}
-
-.null {
-    color: #9E9E9E; /* グレー系 */
+span.s1 {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 12px;
 }
 </style>
 </head>
 <body>
 
-<h2>Scratch風ソースビュー（カラー付き）</h2>
-
-<pre id="sourceView"></pre>
-
-<script>
-const jsonData = {
-  "website": "scratch.mit.edu",
-  "api": "api.scratch.mit.edu",
-  "help": "help@scratch.mit.edu",
-  "version": 3,
-  "active": true,
-  "nullValue": null
-};
-
-// JSON → HTML 変換（簡易カラー付け）
-function jsonToHtml(obj) {
-    let jsonStr = JSON.stringify(obj, null, 2);
-    jsonStr = jsonStr
-        .replace(/"(.*?)":/g, '<span class="key">"$1"</span>:')           // キー
-        .replace(/: "(.*?)"/g, ': <span class="string">"$1"</span>')     // 文字列
-        .replace(/: (\d+)/g, ': <span class="number">$1</span>')         // 数値
-        .replace(/: (true|false)/g, ': <span class="boolean">$1</span>') // 真偽値
-        .replace(/: (null)/g, ': <span class="null">$1</span>');         // null
-    return jsonStr;
-}
-
-document.getElementById('sourceView').innerHTML = jsonToHtml(jsonData);
-</script>
+<p class="p1"><span class="s1">{"website":"scratch.mit.edu","api":"api.scratch.mit.edu","help":"help@scratch.mit.edu"}</span></p>
 
 </body>
 </html>
