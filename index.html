@@ -13,8 +13,9 @@ body {
     color: #000;
 }
 
+/* 見出しも Menlo 系に統一 */
 h2 {
-    font-family: inherit; /* body の Menlo 系を継承 */
+    font-family: Menlo, Monaco, Consolas, monospace;
     margin: 0 0 12px 0;
     padding: 12px;
     background-color: rgba(128,128,128,0.2);
@@ -26,6 +27,13 @@ h2 {
     gap: 16px;
 }
 
+/* 入力欄とプレビューを同じフォントに */
+textarea, pre {
+    font-family: Menlo, Monaco, Consolas, monospace;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
 /* 入力欄 */
 textarea {
     flex: 1;
@@ -33,9 +41,6 @@ textarea {
     padding: 12px;
     border: 1px solid rgba(128,128,128,0.5);
     background-color: #fff;
-    font-family: inherit; /* body の Menlo 系を継承 */
-    font-size: inherit;
-    line-height: 1.4;
     resize: vertical;
     overflow: auto;
     color: #000;
@@ -49,9 +54,6 @@ pre {
     padding: 12px;
     white-space: pre-wrap; /* 折り返しあり */
     word-break: break-word;
-    font-family: inherit; /* body の Menlo 系を継承 */
-    font-size: inherit;
-    line-height: 1.4;
     overflow: auto;
 }
 
