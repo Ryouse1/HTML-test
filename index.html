@@ -2,58 +2,43 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>SwiftUI風 JSON エディタ（Monaco Editor）</title>
+<title>Scratch API 風 エディタ</title>
+
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        background-color: #000000; /* 黒背景 */
-        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
-        color: #FFFFFF;
-    }
-    #editor {
-        flex: 1;
-        border-top: 1px solid #555;
-        border-bottom: 1px solid #555;
-    }
+html, body {
+    margin: 0;
+    height: 100%;
+    background: #000;
+}
+
+textarea {
+    width: 100%;
+    height: 100%;
+    background: #000;
+    color: #fff;
+    border: none;
+    outline: none;
+    resize: none;
+
+    /* ← ここが重要（等幅じゃない） */
+    font-family: -apple-system, BlinkMacSystemFont,
+                 "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 12px;
+    box-sizing: border-box;
+
+    caret-color: white;
+}
 </style>
-<!-- Monaco Editor CDN -->
-<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.43.0/min/vs/loader.js"></script>
 </head>
+
 <body>
-
-<h2 style="padding: 12px; color: #FFFFFF;">SwiftUI風 JSON エディタ（黒背景・白文字）</h2>
-<div id="editor"></div>
-
-<script>
-require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.43.0/min/vs' }});
-require(['vs/editor/editor.main'], function() {
-    const editor = monaco.editor.create(document.getElementById('editor'), {
-        value: `{
+<textarea>{
   "website": "scratch.mit.edu",
   "api": "api.scratch.mit.edu",
-  "help": "help@scratch.mit.edu",
-  "version": 3,
-  "active": true,
-  "nullValue": null
-}`,
-        language: 'json',
-        theme: 'vs-dark', // 黒背景テーマ
-        fontFamily: '-apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif',
-        fontSize: 14,
-        automaticLayout: true,  // リサイズ時に自動調整
-        lineNumbers: 'on',
-        minimap: { enabled: false },
-        scrollbar: {
-            verticalScrollbarSize: 10,
-            horizontalScrollbarSize: 10
-        }
-    });
-});
-</script>
-
+  "help": "help@scratch.mit.edu"
+}</textarea>
 </body>
 </html>
